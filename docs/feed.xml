@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>geo-audit — Enso Labs</title>
+  <link>https://notion-geo-audit.vercel.app/</link>
+  <description>Free GEO audit for any website. Updates and releases.</description>
+  <item>
+    <title>geo-audit v0.1 — free GEO audit CLI + Claude MCP connector + Notion scoreboard</title>
+    <link>https://github.com/nycsav/notion-geo-audit</link>
+    <pubDate>Fri, 12 Jun 2026 09:00:00 -0400</pubDate>
+    <description>15 checks across 4 pillars, score /100, copy-paste fixes. MIT licensed.</description>
+  </item>
+</channel></rss>

@@ -1,0 +1,8 @@
+{
+  "name": "geo-audit",
+  "description": "geo-audit is a free GEO (Generative Engine Optimization) audit tool by Enso Labs. Run it locally as an MCP server with tools audit_site and check_ai_representation.",
+  "url": "https://notion-geo-audit.vercel.app",
+  "repository": "https://github.com/nycsav/notion-geo-audit",
+  "install": "claude mcp add geo-audit -- node ./dist/mcp.js",
+  "contact": "sav@ensopartners.co"
+}

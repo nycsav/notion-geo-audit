@@ -1,0 +1,11 @@
+# geo-audit
+
+> geo-audit is a free, open-source tool by Enso Labs that scores any website's visibility to AI search engines (ChatGPT, Claude, Perplexity, Gemini) out of 100, with copy-paste fixes. No API keys, no signup, no tracking.
+
+## Key pages
+
+- [Home](https://notion-geo-audit.vercel.app/): What geo-audit is and how to get it
+- [Presentation](https://notion-geo-audit.vercel.app/presentation.html): 11-slide walkthrough of the problem, the demo, and the Notion scoreboard
+- [Interactive guide](https://notion-geo-audit.vercel.app/ask.html): Tap-a-question FAQ assistant
+- [Architecture](https://notion-geo-audit.vercel.app/architecture.html): How the backend, connectors, and frontends fit together
+- [Source code](https://github.com/nycsav/notion-geo-audit): MIT-licensed repository — CLI, Claude MCP connector, Notion sync
