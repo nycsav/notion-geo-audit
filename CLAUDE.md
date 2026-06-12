@@ -15,7 +15,7 @@ Free, open-source GEO (Generative Engine Optimization) audit tool by Enso Labs. 
 - `src/cli.ts` — `npx tsx src/cli.ts <url> [--md out.md|--json|--representation]`
 - `src/mcp.ts` — MCP server (tools: `audit_site`, `check_ai_representation`), wired via project `.mcp.json`; loads `.env` itself so keys never sit in client config
 - `scripts/notion-sync.ts` — audit → row in Notion DB (needs NOTION_TOKEN + NOTION_DATABASE_ID in `.env`)
-- `worker/` — **Notion Worker** scaffold (auditSite tool + scoreboardSync sync, follows makenotion/workers-template). NOT yet deployed: blocked on interactive `ntn login` (CLI installed at ~/.local/bin/ntn v0.16.0)
+- `worker/` — **Notion Worker, DEPLOYED Jun 12** (worker id 019ebd2a-f6ee-7260-9016-7cb7bd5abecf, name `geo-audit`, Enso Labs workspace). `auditSite` tool live in Notion's runtime — verified via `ntn workers exec auditSite -d '{"url":"..."}'`. Uses real SDK shape: `worker.tool(name, {title, description, schema: j.object(...), execute})` from `@notionhq/workers` + schema-builder. Lite engine = strict pass/fail (scores lower than full engine). Redeploy: `cd worker && ntn workers deploy`. v2: worker.sync() managed scoreboard DB.
 - `docs/` — the Vercel-deployed static site (deploys from this subfolder)
 
 ## Build / deploy

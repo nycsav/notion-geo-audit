@@ -2,9 +2,20 @@
   "name": "geo-audit-worker",
   "version": "0.1.0",
   "private": true,
-  "description": "geo-audit as a Notion Worker — agent tool + scheduled scoreboard sync. Deploy with the Notion CLI (ntn workers deploy).",
+  "description": "geo-audit as a Notion Worker — the auditSite agent tool. Deploy with the Notion CLI (ntn workers deploy).",
   "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "dependencies": {
-    "@notionhq/workers": "latest"
+    "@notionhq/workers": ">=0.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.8.0"
   }
 }

@@ -1,19 +1,23 @@
 /**
  * geo-audit as a NOTION WORKER — runs inside Notion's hosted runtime.
- * No servers. Deploy once with the Notion CLI, then:
- *   · `auditSite` appears as a TOOL in your Notion Custom Agents
- *   · `scoreboardSync` re-audits your scoreboard on a schedule
+ * No servers. Deploy once with the Notion CLI, then `auditSite` appears as a
+ * TOOL your Notion Custom Agents can call on demand:
+ *
+ *   "Audit brainstation.io and add the result to the GEO Audit Results database."
+ *
+ * The agent runs the audit with this tool and writes the row itself — no sync
+ * wiring needed. (A worker-managed scoreboard database via worker.sync() is the
+ * v2 shape; see .examples/sync-example.ts in makenotion/workers-template.)
  *
  * Deploy:
- *   curl -fsSL https://ntn.dev | bash     # install the Notion CLI (once)
- *   cd worker && ntn workers deploy
- *
- * Pattern follows the official template: github.com/makenotion/workers-template
- * Docs: developers.notion.com/workers/get-started/overview
+ *   ntn login
+ *   cd worker && npm install && ntn workers deploy --name geo-audit
  */
 import { Worker } from '@notionhq/workers';
+import { j } from '@notionhq/workers/schema-builder';
 
 const worker = new Worker();
+export default worker;
 
 /* ---------- the audit engine (worker-sandbox friendly: fetch + regex only) ---------- */
 
@@ -63,32 +67,21 @@ export async function auditLite(input: string) {
   return { origin, score, grade, fixes, topFix: fixes[0] ?? 'None — every check passes.' };
 }
 
-/* ---------- 1 · AGENT TOOL: Custom Agents call this on demand ---------- */
+/* ---------- AGENT TOOL: Custom Agents call this on demand ---------- */
 
 worker.tool('auditSite', {
+  title: 'GEO Audit',
   description:
-    'Run a GEO (Generative Engine Optimization) audit on a public website. Returns an AI-visibility score /100, grade, and the prioritized fix list.',
-  input: { url: { type: 'string', description: 'Website to audit, e.g. example.com' } },
-  handler: async ({ url }: { url: string }) => auditLite(url),
+    'Run a GEO (Generative Engine Optimization) audit on a public website. Returns an AI-visibility score out of 100, a letter grade, and the prioritized fix list. Use when someone asks how visible a site is to AI search (ChatGPT, Claude, Perplexity, Gemini), or wants a site checked and the result added to a scoreboard database. The full report with copy-paste fixes lives at notion-geo-audit.vercel.app.',
+  schema: j.object({
+    url: j.string().describe('The website to audit, e.g. example.com or https://example.com'),
+  }),
+  outputSchema: j.object({
+    origin: j.string().describe('The normalized origin that was audited'),
+    score: j.number().describe('AI-visibility score, 0-100'),
+    grade: j.string().describe('Letter grade A-F'),
+    fixes: j.array(j.string()).describe('Names of the failed checks, in audit order'),
+    topFix: j.string().describe('The single highest-impact fix'),
+  }),
+  execute: async ({ url }) => auditLite(url),
 });
-
-/* ---------- 2 · SCHEDULED SYNC: keeps the community scoreboard fresh ---------- */
-// Re-audits every site in your "GEO Audit Results" database on Notion's schedule
-// (default every 30 minutes; set it in the worker config). Wire the database id
-// in ntn.config — see github.com/makenotion/workers-template for the sync shape.
-
-worker.sync('scoreboardSync', {
-  description: 'Re-audit every site in the GEO Audit Results database and refresh Score / Grade / Top Fix.',
-  handler: async (ctx: any) => {
-    const rows: Array<{ id: string; url: string }> = (await ctx?.database?.rows?.()) ?? [];
-    const out = [];
-    for (const row of rows) {
-      if (!row.url) continue;
-      const r = await auditLite(row.url);
-      out.push({ id: row.id, Score: r.score, Grade: r.grade, 'Top Fix': r.topFix, Audited: new Date().toISOString().slice(0, 10) });
-    }
-    return out;
-  },
-});
-
-export default worker;
