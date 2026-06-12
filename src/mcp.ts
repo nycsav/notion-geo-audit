@@ -10,7 +10,22 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { audit, toMarkdown, checkRepresentation } from './index.js';
+
+// Load a sibling .env (gitignored) so the optional Perplexity key never has to
+// live in MCP client config. Real env vars win over the file.
+try {
+  const envPath = join(dirname(fileURLToPath(import.meta.url)), '..', '.env');
+  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+    const m = line.match(/^([A-Z0-9_]+)=(.*)$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].trim();
+  }
+} catch {
+  /* no .env — representation check simply stays off */
+}
 
 const server = new McpServer({ name: 'geo-audit', version: '0.1.0' });
 
