@@ -392,8 +392,10 @@ function render({ report, engines, notionSite }) {
     h += '</div>';
   }
 
-  h += '<div class="repbox"><button onclick="runRep(this)">🔮 HOW DOES AI DESCRIBE YOU? — LIVE CHECK</button>';
-  h += '<div class="repnote">Asks Perplexity, live, how it describes ' + esc(report.origin.replace(/^https?:\/\//,'')) + ' today. Rate-limited: one check per minute.</div>';
+  h += '<div class="repbox"><b style="font:700 13px \'JetBrains Mono\',monospace;letter-spacing:.12em;color:var(--dim)">HOW DOES AI DESCRIBE YOU TODAY? — LIVE</b><br/>';
+  h += '<button style="margin:12px 6px 0" onclick="runRep(this,\'perplexity\')">🔮 ASK PERPLEXITY</button>';
+  h += '<button style="margin:12px 6px 0" onclick="runRep(this,\'claude\')">🤖 ASK CLAUDE</button>';
+  h += '<div class="repnote">Live queries about ' + esc(report.origin.replace(/^https?:\/\//,'')) + ' — Perplexity (sonar) or Claude with web search. Rate-limited: one check per minute.</div>';
   h += '<div id="rep"></div></div>';
 
   h += '</div>';
@@ -412,19 +414,20 @@ function notionPanel() {
   '</ul><div class="why">🚀 <b style="color:var(--text)">The unlock:</b> connect a <b style="color:var(--text)">custom domain</b> (Site settings → Domains). Every fix in this report becomes available, and your GEO score ceiling goes from ~60 to 100. Re-audit the custom domain after.</div></div>';
 }
 
-async function runRep(btn) {
-  btn.disabled = true; btn.textContent = 'ASKING PERPLEXITY…';
+async function runRep(btn, engine) {
+  const label = btn.textContent;
+  btn.disabled = true; btn.textContent = engine === 'claude' ? 'ASKING CLAUDE…' : 'ASKING PERPLEXITY…';
   const rep = document.getElementById('rep');
   try {
-    const r = await fetch('/api/representation?url=' + encodeURIComponent(currentUrl));
+    const r = await fetch('/api/representation?url=' + encodeURIComponent(currentUrl) + '&engine=' + engine);
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || 'Check failed.');
-    rep.innerHTML = '<div class="repanswer"><blockquote>' + esc(data.answer) + '</blockquote>' +
+    rep.innerHTML += '<div class="repanswer"><blockquote>' + esc(data.answer) + '</blockquote>' +
       '<div class="src">— ' + esc(data.engine) + (data.sources.length ? '<br/>sources it trusted: ' + data.sources.map(esc).join(' · ') : '') + '</div></div>';
-    btn.style.display = 'none';
+    btn.textContent = label; btn.disabled = false; btn.style.opacity = .5;
   } catch (e) {
-    rep.innerHTML = '<div class="repanswer"><blockquote style="border-color:var(--red)">' + esc(e.message) + '</blockquote></div>';
-    btn.disabled = false; btn.textContent = '🔮 HOW DOES AI DESCRIBE YOU? — LIVE CHECK';
+    rep.innerHTML += '<div class="repanswer"><blockquote style="border-color:var(--red)">' + esc(e.message) + '</blockquote></div>';
+    btn.disabled = false; btn.textContent = label;
   }
 }
 

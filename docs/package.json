@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.88.0",
     "cheerio": "^1.0.0"
   },
   "devDependencies": {
