@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>geo-audit — Own your AI visibility · Enso Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F7F1E6;--ink:#1E1813;--deep:#16110B;--coral:#F0512E;--amber:#E0A23C;--slate:#79705F;--line:#DDD2BC;--teal:#5CE0D2;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--deep);font-family:"Inter Tight",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+  .deck{height:100%;position:relative}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:7vh 9vw;background:var(--paper)}
+  .slide.active{display:flex;animation:fade .45s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .kicker{font:700 12px/1 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--slate);margin-bottom:22px}
+  .kicker b{color:var(--coral)}
+  h1{font-family:Lora,serif;font-weight:600;font-size:clamp(34px,5.2vw,68px);line-height:1.08;letter-spacing:-.01em}
+  h1 .c{color:var(--coral)}
+  .sub{font-size:clamp(16px,1.6vw,21px);color:var(--slate);margin-top:20px;max-width:46ch;line-height:1.5}
+  .grid{display:grid;gap:18px;margin-top:38px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:22px 24px}
+  .card .n{font:700 12px/1 "JetBrains Mono",monospace;color:var(--coral);letter-spacing:.16em;text-transform:uppercase}
+  .card h3{font-family:Lora,serif;font-size:clamp(16px,1.7vw,22px);margin:10px 0 8px}
+  .card p{font-size:clamp(13px,1.25vw,16px);color:var(--slate);line-height:1.5}
+  .dark{background:var(--deep)}
+  .dark .kicker{color:#A99F8D}
+  .dark h1,.dark .big{color:var(--paper)}
+  .dark .sub{color:#C9BFAD}
+  .term{background:var(--deep);border-radius:16px;padding:26px 30px;font:14px/1.9 "JetBrains Mono",monospace;color:#EDE5D4;box-shadow:0 18px 50px rgba(22,17,11,.25);margin-top:34px}
+  .term .dim{color:#8d8473}.term .ok{color:#7ad48f}.term .wn{color:var(--amber)}.term .bd{color:#ff7d63}.term .sc{color:var(--teal)}
+  .scorebar{display:flex;align-items:center;gap:16px;margin-top:10px}
+  .scorebar .track{flex:1;height:14px;background:#EAE0CC;border-radius:99px;overflow:hidden}
+  .scorebar .fill{height:100%;background:var(--coral);border-radius:99px}
+  .scorebar .val{font:700 18px "JetBrains Mono",monospace}
+  table.nt{width:100%;border-collapse:collapse;background:#fff;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;margin-top:30px;font-size:clamp(13px,1.3vw,16px)}
+  table.nt th{font:700 11px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);text-align:left;padding:12px 16px;border-bottom:1.5px solid var(--line);background:#FCF8EF}
+  table.nt td{padding:13px 16px;border-bottom:1px solid #EFE7D5}
+  .pill{display:inline-block;font:700 12px "JetBrains Mono",monospace;padding:4px 10px;border-radius:99px}
+  .pA{background:#E4F4E4;color:#2E7D44}.pC{background:#FBF0D7;color:#9A6B00}.pD{background:#FCE4D8;color:#B33A14}
+  .stamp{position:absolute;top:7vh;right:9vw;transform:rotate(-4deg);border:3px solid var(--coral);color:var(--coral);font:700 13px/1 "JetBrains Mono",monospace;padding:8px 12px;border-radius:8px;letter-spacing:.14em}
+  .flow{display:flex;align-items:center;gap:0;margin-top:40px}
+  .flow .st{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:20px;text-align:center}
+  .flow .st .e{font-size:34px}
+  .flow .st h4{font-family:Lora,serif;font-size:clamp(14px,1.4vw,18px);margin:8px 0 4px}
+  .flow .st p{font-size:clamp(11px,1.05vw,13px);color:var(--slate)}
+  .flow .a{padding:0 12px;color:var(--coral);font-size:30px;font-weight:700}
+  .nav{position:fixed;bottom:26px;left:0;right:0;display:flex;justify-content:center;gap:9px;z-index:5}
+  .dot{width:9px;height:9px;border-radius:50%;background:#a99f8d66;border:0;cursor:pointer}
+  .dot.on{background:var(--coral)}
+  .hint{position:fixed;bottom:22px;right:26px;font:11px "JetBrains Mono",monospace;color:#a99f8d;z-index:5}
+  .brand{position:fixed;bottom:22px;left:26px;font:11px "JetBrains Mono",monospace;color:#a99f8d;z-index:5}
+  .clicker{position:absolute;inset:0;cursor:pointer}
+  ul.steps{margin-top:30px;list-style:none}
+  ul.steps li{display:flex;gap:16px;align-items:flex-start;margin:16px 0;font-size:clamp(15px,1.5vw,19px);line-height:1.45}
+  ul.steps .num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--coral);color:#fff;font:700 15px/34px "JetBrains Mono",monospace;text-align:center}
+  ul.steps b{font-weight:600}
+  .big{font-family:Lora,serif;font-size:clamp(26px,3.4vw,44px);line-height:1.2;max-width:24ch}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 · COVER -->
+  <section class="slide active">
+    <div class="stamp">LIVE · v0.1</div>
+    <div class="kicker">enso labs <b>·</b> community tools <b>·</b> june 2026</div>
+    <h1>Own your <span class="c">AI&nbsp;visibility</span>.</h1>
+    <p class="sub">geo-audit — a free, open tool that shows any website how it looks to ChatGPT, Claude, Perplexity, and Gemini. And exactly how to fix it.</p>
+  </section>
+
+  <!-- 2 · EXEC SUMMARY -->
+  <section class="slide">
+    <div class="kicker">executive summary</div>
+    <h1>Four answers, <span class="c">up front</span>.</h1>
+    <div class="grid g4">
+      <div class="card"><div class="n">What it does</div><h3>Audits AI visibility</h3><p>Reads a site's public files, runs 15 checks, scores it /100 — with copy-paste fixes for every gap.</p></div>
+      <div class="card"><div class="n">What the demo does</div><h3>Scores real sites live</h3><p>This venue. Our own site. Your site. Ten seconds each — then results land in a shared Notion table.</p></div>
+      <div class="card"><div class="n">Who it helps</div><h3>Everyone without a budget</h3><p>Small businesses, forums, nonprofits. Enterprise pays for this insight — communities get it free.</p></div>
+      <div class="card"><div class="n">How you use it</div><h3>Ask, or one command</h3><p>Plug into Claude and just ask. Or run one terminal command. Results read like advice, not a report.</p></div>
+    </div>
+  </section>
+
+  <!-- 3 · THE PROBLEM -->
+  <section class="slide dark">
+    <div class="kicker">the problem</div>
+    <p class="big">AI answers are the new front page.<br/><br/>When someone asks ChatGPT <i>"who should I hire near me?"</i> — either <span style="color:var(--coral)">you're in the answer</span>, or your competitor is.</p>
+    <p class="sub">Google had SEO. AI search has GEO — Generative Engine Optimization. Almost nobody is checking theirs.</p>
+  </section>
+
+  <!-- 4 · WHAT IT CHECKS -->
+  <section class="slide">
+    <div class="kicker">what the app does</div>
+    <h1>15 checks. <span class="c">4 questions.</span></h1>
+    <div class="grid g4">
+      <div class="card"><div class="n">1 · Reach</div><h3>Can AI find you?</h3><p>Are AI crawlers welcomed or blocked? Is there a sitemap, an llms.txt?</p></div>
+      <div class="card"><div class="n">2 · Identity</div><h3>Does AI know who you are?</h3><p>Structured data that says "this is us" — so you're never confused with someone else.</p></div>
+      <div class="card"><div class="n">3 · Voice</div><h3>Can AI quote you?</h3><p>One clear headline. One sentence that defines you. FAQs machines can lift.</p></div>
+      <div class="card"><div class="n">4 · Access</div><h3>Can AI connect?</h3><p>Feeds and agent endpoints — the plumbing of the agentic web.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 · DEMO ACT 1 -->
+  <section class="slide">
+    <div class="kicker">the demo · step 1 of 5</div>
+    <h1>Audit a real site, <span class="c">live</span>.</h1>
+    <div class="term">
+      <div class="dim">$ geo-audit brainstation.io</div>
+      <div>&nbsp;</div>
+      <div>GEO AUDIT&nbsp;&nbsp;https://brainstation.io</div>
+      <div>Score <span class="sc">71/100</span> — C · visible but under-represented in AI answers</div>
+      <div>&nbsp;</div>
+      <div><span class="ok">✓</span> Site loads over HTTPS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ok">✓</span> Sitemap present</div>
+      <div><span class="wn">●</span> AI crawlers not explicitly allowed&nbsp;&nbsp;&nbsp;<span class="wn">●</span> No llms.txt</div>
+      <div><span class="wn">●</span> Thin structured-data identity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="wn">●</span> No definition sentence</div>
+    </div>
+    <p class="sub" style="margin-top:24px">Ten seconds. A number the whole room understands.</p>
+  </section>
+
+  <!-- 6 · DEMO ACT 2 -->
+  <section class="slide">
+    <div class="kicker">the demo · step 2 of 5</div>
+    <h1>The checklist is <span class="c">achievable</span>.</h1>
+    <div class="grid g2" style="margin-top:36px">
+      <div class="card"><h3>brainstation.io</h3><div class="scorebar"><div class="track"><div class="fill" style="width:71%"></div></div><div class="val">71</div></div><p style="margin-top:12px">A typical, healthy modern site — that has never optimized for AI search.</p></div>
+      <div class="card"><h3>ensolabs.ai</h3><div class="scorebar"><div class="track"><div class="fill" style="width:100%"></div></div><div class="val">100</div></div><p style="margin-top:12px">Same 15 checks, all passing. Not magic — a checklist. And the checklist is now open source.</p></div>
+    </div>
+  </section>
+
+  <!-- 7 · DEMO ACT 3 — THE TWIST -->
+  <section class="slide dark">
+    <div class="kicker">the demo · step 3 of 5 · the twist</div>
+    <p class="big">We asked Perplexity, live: <i>"What is ensolabs.ai?"</i><br/><br/>Its first source was <span style="color:var(--coral)">ensolabs.us — a different company.</span></p>
+    <p class="sub">A perfect technical score still doesn't mean AI describes <i>you</i> correctly. You have to check. Now anyone can.</p>
+  </section>
+
+  <!-- 8 · DEMO ACT 4 — NOTION FRONTEND -->
+  <section class="slide">
+    <div class="kicker">the demo · step 4 of 5</div>
+    <h1>Results land in <span class="c">Notion</span>.</h1>
+    <div class="flow">
+      <div class="st"><div class="e">⌨️</div><h4>One command</h4><p>or one ask in Claude</p></div>
+      <div class="a">→</div>
+      <div class="st"><div class="e">⚙️</div><h4>Backend audits</h4><p>15 checks · score /100</p></div>
+      <div class="a">→</div>
+      <div class="st"><div class="e">🔗</div><h4>Notion API</h4><p>one new row per run</p></div>
+      <div class="a">→</div>
+      <div class="st"><div class="e">📒</div><h4>Shared database</h4><p>the community scoreboard</p></div>
+    </div>
+    <table class="nt">
+      <tr><th>Site</th><th>Score</th><th>Grade</th><th>Top fix</th></tr>
+      <tr><td>ensolabs.ai</td><td><b>100</b></td><td><span class="pill pA">A</span></td><td>None — every check passes</td></tr>
+      <tr><td>brainstation.io</td><td><b>71</b></td><td><span class="pill pC">C</span></td><td>Welcome AI crawlers · add llms.txt</td></tr>
+      <tr><td>example.com</td><td><b>46</b></td><td><span class="pill pD">D</span></td><td>robots.txt · schema identity</td></tr>
+    </table>
+  </section>
+
+  <!-- 9 · DEMO ACT 5 — YOUR TURN -->
+  <section class="slide">
+    <div class="kicker">the demo · step 5 of 5</div>
+    <h1>Your turn. <span class="c">Your site.</span></h1>
+    <ul class="steps">
+      <li><span class="num">1</span><span>Shout your URL — we audit it <b>live on screen</b>.</span></li>
+      <li><span class="num">2</span><span>Your row appears in the shared Notion table, next to everyone else's.</span></li>
+      <li><span class="num">3</span><span>You leave with a <b>personal report</b>: your top 3 fixes, each with a copy-paste snippet.</span></li>
+      <li><span class="num">4</span><span>Most sites can apply those fixes in <b>under an hour</b> — and re-audit free, forever.</span></li>
+    </ul>
+  </section>
+
+  <!-- 10 · HOW TO GET IT -->
+  <section class="slide">
+    <div class="kicker">how people use it</div>
+    <h1>Free. Open. <span class="c">Yours.</span></h1>
+    <div class="grid g2" style="margin-top:36px">
+      <div class="card"><div class="n">Easiest · inside Claude</div><h3>Plug it in once, then just ask</h3><p style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#FCF8EF;border-radius:8px;padding:10px 12px;margin-top:8px">"Audit mysite.org and walk me<br/>through the top 3 fixes."</p></div>
+      <div class="card"><div class="n">Classic · terminal</div><h3>One command</h3><p style="font-family:'JetBrains Mono',monospace;font-size:13px;background:#FCF8EF;border-radius:8px;padding:10px 12px;margin-top:8px">npx tsx src/cli.ts yoursite.org</p></div>
+    </div>
+    <p class="sub" style="margin-top:30px">github.com/nycsav/geo-audit · MIT licensed · no API keys, no signup, no tracking</p>
+  </section>
+
+  <!-- 11 · CLOSE -->
+  <section class="slide dark">
+    <div class="kicker">enso labs · new york</div>
+    <p class="big">Every community deserves to be represented correctly — by people <span style="color:var(--coral)">and by machines</span>.</p>
+    <p class="sub" style="margin-top:28px">geo-audit · free GEO for everyone<br/>Powered by Enso Labs · ensolabs.ai · Built with Claude Code</p>
+  </section>
+
+  <div class="clicker" id="clicker"></div>
+</div>
+
+<div class="nav" id="nav"></div>
+<div class="brand">geo-audit · enso labs</div>
+<div class="hint">← → or click to advance</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];const nav=document.getElementById('nav');let i=0;
+  slides.forEach((_,k)=>{const d=document.createElement('button');d.className='dot'+(k===0?' on':'');d.onclick=e=>{e.stopPropagation();go(k)};nav.appendChild(d)});
+  const dots=[...nav.children];
+  function go(k){i=Math.max(0,Math.min(slides.length-1,k));slides.forEach((s,j)=>s.classList.toggle('active',j===i));dots.forEach((d,j)=>d.classList.toggle('on',j===i))}
+  document.getElementById('clicker').onclick=()=>go(i+1);
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(i+1);if(e.key==='ArrowLeft')go(i-1)});
+</script>
+</body>
+</html>

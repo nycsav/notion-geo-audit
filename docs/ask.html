@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ask geo-audit — interactive guide · Enso Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F7F1E6;--ink:#1E1813;--deep:#16110B;--coral:#F0512E;--slate:#79705F;--line:#DDD2BC;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);font-family:"Inter Tight",system-ui,sans-serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:34px 18px}
+  .kicker{font:700 11px/1 "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--slate)}
+  h1{font-family:Lora,serif;font-size:clamp(26px,4.5vw,40px);margin:10px 0 4px}
+  h1 .c{color:var(--coral)}
+  .tag{font-size:14px;color:var(--slate);margin-bottom:22px}
+  .chat{width:100%;max-width:660px;background:#fff;border:1.5px solid var(--line);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 44px rgba(22,17,11,.10)}
+  .log{padding:22px;display:flex;flex-direction:column;gap:12px;min-height:300px;max-height:54vh;overflow-y:auto}
+  .msg{max-width:85%;padding:12px 16px;border-radius:16px;font-size:15px;line-height:1.5;animation:pop .25s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .bot{background:#FCF8EF;border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+  .bot b{color:var(--coral)}
+  .bot code{font:13px "JetBrains Mono",monospace;background:var(--deep);color:#EDE5D4;padding:2px 7px;border-radius:6px}
+  .me{background:var(--coral);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;font-weight:500}
+  .chips{padding:14px 18px 18px;border-top:1.5px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;background:#FFFDF8}
+  .chip{border:1.5px solid var(--ink);background:#fff;border-radius:99px;padding:8px 14px;font:500 13px "Inter Tight",sans-serif;cursor:pointer;transition:all .15s}
+  .chip:hover{background:var(--coral);border-color:var(--coral);color:#fff;transform:translateY(-1px)}
+  .foot{margin-top:18px;font:11px "JetBrains Mono",monospace;color:var(--slate);text-align:center;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="kicker">enso labs · community tools</div>
+<h1>Ask <span class="c">geo-audit</span></h1>
+<div class="tag">Tap a question — the guide answers. (Demo assistant with prepared answers; the full version is Claude with the geo-audit connector.)</div>
+
+<div class="chat">
+  <div class="log" id="log">
+    <div class="msg bot">Hi! I'm the <b>geo-audit guide</b>. I can explain what this tool does, how to run your first audit, and how the Notion scoreboard works. What would you like to know?</div>
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<div class="foot">free · open source · MIT · github.com/nycsav/geo-audit<br/>Powered by Enso Labs · Built with Claude Code</div>
+
+<script>
+const QA = [
+  ["What is geo-audit?",
+   "geo-audit is a <b>free tool that checks how visible your website is to AI search</b> — ChatGPT, Claude, Perplexity, Gemini. It reads your site's public files, runs 15 checks, and gives you a score out of 100 with a plain-English fix list. No signup, no tracking."],
+  ["Why should I care about AI visibility?",
+   "AI answers are the new front page. When someone asks an AI assistant <i>“who should I hire near me?”</i> — either <b>you're in the answer or your competitor is</b>. Google had SEO; AI search has GEO. Almost nobody is checking theirs yet, which means early movers win."],
+  ["How do I run my first audit?",
+   "Two commands, about five minutes:<br/><br/><code>git clone github.com/nycsav/geo-audit && cd geo-audit && npm install</code><br/><br/>then<br/><br/><code>npx tsx src/cli.ts yoursite.org</code><br/><br/>You'll see 15 lines — ✅ pass, 🟡 improve, 🔴 fix — and your score."],
+  ["What do the 15 checks cover?",
+   "Four questions: <b>1 · Can AI reach you?</b> (robots.txt AI policy, sitemap, llms.txt) · <b>2 · Does AI know who you are?</b> (structured identity, canonical, social tags) · <b>3 · Can AI quote you?</b> (clear H1, a “you are…” definition sentence, FAQs) · <b>4 · Can AI agents connect?</b> (feeds, MCP manifest)."],
+  ["How does the Notion scoreboard work?",
+   "One command — <code>npx tsx scripts/notion-sync.ts yoursite.org</code> — audits your site and <b>adds a row to a shared Notion database</b>: site, score, grade, top fix, date. A community runs one workshop and keeps a living scoreboard everyone can see climb."],
+  ["Can I use it inside Claude?",
+   "Yes — that's the nicest way. Add the connector once:<br/><br/><code>claude mcp add geo-audit -- node ./dist/mcp.js</code><br/><br/>then just ask: <i>“Audit mysite.org and walk me through the top 3 fixes.”</i> Claude runs the audit and explains everything conversationally."],
+  ["Is my data safe? What does it cost?",
+   "Safe: it reads <b>only files your site already shows the whole internet</b> — no login, nothing stored anywhere you don't control. Cost: <b>nothing</b>. MIT licensed — fork it, rebrand it, run it for your whole community."],
+  ["My score is low — is that bad?",
+   "It's <b>normal</b> — most sites have never optimized for AI search. The report's “Fix these first” list comes with copy-paste snippets (a ready robots.txt block, an llms.txt template, a schema starter). Three fixes usually move you <b>15–25 points</b> in under an hour."],
+];
+const log=document.getElementById('log'),chips=document.getElementById('chips');
+QA.forEach(([q,a])=>{const c=document.createElement('button');c.className='chip';c.textContent=q;
+ c.onclick=()=>{add('me',q);setTimeout(()=>add('bot',a),420);c.style.opacity=.45;};chips.appendChild(c);});
+function add(who,html){const m=document.createElement('div');m.className='msg '+who;m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight;}
+</script>
+</body>
+</html>
