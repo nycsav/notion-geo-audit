@@ -72,7 +72,7 @@ export async function auditLite(input: string) {
 worker.tool('auditSite', {
   title: 'GEO Audit',
   description:
-    'Run a GEO (Generative Engine Optimization) audit on a public website. Returns an AI-visibility score out of 100, a letter grade, and the prioritized fix list. Use when someone asks how visible a site is to AI search (ChatGPT, Claude, Perplexity, Gemini), or wants a site checked and the result added to a scoreboard database. The full report with copy-paste fixes lives at notion-geo-audit.vercel.app.',
+    'Run a GEO (Generative Engine Optimization) audit on a public website. Returns an AI-visibility score out of 100, a letter grade, and the prioritized fix list. Use when someone asks how visible a site is to AI search (ChatGPT, Claude, Perplexity, Gemini), or wants a site checked and the result added to a scoreboard database. The full report with copy-paste fixes lives at geo.ensolabs.ai.',
   schema: j.object({
     url: j.string().describe('The website to audit, e.g. example.com or https://example.com'),
   }),

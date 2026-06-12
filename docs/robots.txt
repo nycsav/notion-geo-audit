@@ -31,4 +31,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://notion-geo-audit.vercel.app/sitemap.xml
+Sitemap: https://geo.ensolabs.ai/sitemap.xml

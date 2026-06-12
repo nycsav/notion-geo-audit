@@ -4,7 +4,7 @@
 Free, open-source GEO (Generative Engine Optimization) audit tool by Enso Labs. Scores any website's AI-search visibility (ChatGPT, Claude, Perplexity, Gemini) /100 with copy-paste fixes. Built Jun 12 2026 for the Notion Community Showcase; mission: give communities free AI-visibility tooling.
 
 ## Live surfaces (all launched, public)
-- **Site:** https://notion-geo-audit.vercel.app — interactive in-browser audit (dark AI-terminal design, Jun 12 PM redesign) + tools page (4 no-code generators) + presentation deck (13 slides) + "Ask geo-audit" chatbot + architecture map. Self-audit score: **100/100** (dogfooded 50→100; re-verified after redesign).
+- **Site:** https://geo.ensolabs.ai — interactive in-browser audit (dark AI-terminal design, Jun 12 PM redesign) + tools page (4 no-code generators) + presentation deck (13 slides) + "Ask geo-audit" chatbot + architecture map. Self-audit score: **100/100** (dogfooded 50→100; re-verified after redesign).
 - **API:** `/api/audit?url=` (15 checks + per-engine breakdown + notionSite flag) and `/api/representation?url=` (live Perplexity check, rate-limited 1/min/IP + 300/day; PERPLEXITY_API_KEY set in Vercel env, Production).
 - **Repo:** https://github.com/nycsav/notion-geo-audit — PUBLIC, MIT, 14 topics. Local folder name is `geo-audit`, repo name is `notion-geo-audit`.
 - **Notion hub:** 📡 "geo-audit — Community GEO Demo" (page 37d0bdff-e59e-815d-aa7e-eefdba8dc23c) with sub-pages: DIY connect guide, instruction manual, SEO/GEO checklist, 🏁 GEO Scoreboard template (PUBLISHED + duplicate-as-template ON: square-denim-cf9.notion.site/GEO-Scoreboard-... — subdomain rename to `ensolabs` pending, update links everywhere after).

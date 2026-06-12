@@ -1,6 +1,6 @@
 {
   "name": "geo-audit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Free GEO (Generative Engine Optimization) audit for any website — see how ready your site is for AI search engines, with copy-paste fixes. No API keys.",
   "type": "module",
   "bin": {
@@ -35,7 +35,7 @@
     "type": "git",
     "url": "git+https://github.com/nycsav/notion-geo-audit.git"
   },
-  "homepage": "https://notion-geo-audit.vercel.app",
+  "homepage": "https://geo.ensolabs.ai",
   "bugs": "https://github.com/nycsav/notion-geo-audit/issues",
   "engines": {
     "node": ">=18"

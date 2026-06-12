@@ -4,9 +4,9 @@
 
 ## Key pages
 
-- [Home](https://notion-geo-audit.vercel.app/): Run a free GEO audit in the browser — score /100, per-engine breakdown, live "how AI describes you" check
-- [Tools](https://notion-geo-audit.vercel.app/tools.html): Free no-code generators — robots.txt AI allowlist, llms.txt, identity JSON-LD, FAQ schema
-- [Presentation](https://notion-geo-audit.vercel.app/presentation.html): 13-slide walkthrough of the problem, the demo, and the Notion scoreboard
-- [Interactive guide](https://notion-geo-audit.vercel.app/ask.html): Tap-a-question FAQ assistant
-- [Architecture](https://notion-geo-audit.vercel.app/architecture.html): How the backend, connectors, and frontends fit together
+- [Home](https://geo.ensolabs.ai/): Run a free GEO audit in the browser — score /100, per-engine breakdown, live "how AI describes you" check
+- [Tools](https://geo.ensolabs.ai/tools.html): Free no-code generators — robots.txt AI allowlist, llms.txt, identity JSON-LD, FAQ schema
+- [Presentation](https://geo.ensolabs.ai/presentation.html): 13-slide walkthrough of the problem, the demo, and the Notion scoreboard
+- [Interactive guide](https://geo.ensolabs.ai/ask.html): Tap-a-question FAQ assistant
+- [Architecture](https://geo.ensolabs.ai/architecture.html): How the backend, connectors, and frontends fit together
 - [Source code](https://github.com/nycsav/notion-geo-audit): MIT-licensed repository — CLI, Claude MCP connector, Notion sync

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://notion-geo-audit.vercel.app/</loc></url>
-  <url><loc>https://notion-geo-audit.vercel.app/tools.html</loc></url>
-  <url><loc>https://notion-geo-audit.vercel.app/presentation.html</loc></url>
-  <url><loc>https://notion-geo-audit.vercel.app/ask.html</loc></url>
-  <url><loc>https://notion-geo-audit.vercel.app/architecture.html</loc></url>
+  <url><loc>https://geo.ensolabs.ai/</loc></url>
+  <url><loc>https://geo.ensolabs.ai/tools.html</loc></url>
+  <url><loc>https://geo.ensolabs.ai/presentation.html</loc></url>
+  <url><loc>https://geo.ensolabs.ai/ask.html</loc></url>
+  <url><loc>https://geo.ensolabs.ai/architecture.html</loc></url>
 </urlset>

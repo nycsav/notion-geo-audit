@@ -41,7 +41,7 @@ ntn workers exec auditSite -d '{"url":"example.com"}'
 - **Pricing:** Workers are free during beta; from **Aug 11, 2026** they run on Notion credits.
 - The worker uses a fetch+regex **"lite" engine** (sandbox-friendly — no DOM parser, strict
   pass/fail, no partial credit), so its scores run lower than the full engine's. For the full
-  15-check report with copy-paste fixes, use [notion-geo-audit.vercel.app](https://notion-geo-audit.vercel.app),
+  15-check report with copy-paste fixes, use [geo.ensolabs.ai](https://geo.ensolabs.ai),
   the CLI, or the Claude MCP connector in the repo root.
 - **v2 shape:** a worker-managed scoreboard database synced on a schedule via `worker.sync()`
   — see `.examples/sync-example.ts` in [makenotion/workers-template](https://github.com/makenotion/workers-template).

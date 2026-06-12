@@ -1,5 +1,11 @@
 # geo-audit
 
+[![Live audit](https://img.shields.io/badge/▶_audit_your_site-geo.ensolabs.ai-F0512E)](https://geo.ensolabs.ai)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2EE6C8.svg)](LICENSE)
+[![Self-audit](https://img.shields.io/badge/self--audit-100%2F100-2EE6C8)](https://geo.ensolabs.ai/?url=geo.ensolabs.ai)
+[![Built for Notion](https://img.shields.io/badge/Notion-Worker_%2B_template-000000?logo=notion)](https://github.com/nycsav/notion-geo-audit/tree/main/worker)
+[![MCP](https://img.shields.io/badge/Claude-MCP_connector-D97757?logo=anthropic)](https://github.com/nycsav/notion-geo-audit#use-it-inside-claude-the-geo-connector)
+
 **Free GEO (Generative Engine Optimization) audit for any website. No API keys, no login, no tracking.**
 
 AI search engines — ChatGPT, Claude, Perplexity, Gemini — are how people increasingly find businesses. If those engines can't reach your site, can't tell who you are, or can't quote you, you don't exist in their answers. Big companies pay enterprise tools to fix this. **This tool gives the same checklist to everyone.**
@@ -33,14 +39,14 @@ Every failed check comes with a plain-English fix and a **copy-paste snippet** (
 
 ## Audit in the browser (no install)
 
-Go to **[notion-geo-audit.vercel.app](https://notion-geo-audit.vercel.app)**, type your URL, press **AUDIT ▶**. You get:
+Go to **[geo.ensolabs.ai](https://geo.ensolabs.ai)**, type your URL, press **AUDIT ▶**. You get:
 
 - the full 15-check report with copy-paste fixes
 - a **per-engine breakdown** — ChatGPT, Claude, Perplexity, and Gemini each scored separately (each engine reads your site with a different crawler, so the answers genuinely differ)
 - a live **"how does AI describe you today"** check (Perplexity, rate-limited)
 - **Notion mode** — audit any `*.notion.site` and see which fixes you control inside Notion vs. which need a custom domain
 
-The **[tools page](https://notion-geo-audit.vercel.app/tools.html)** has free no-code generators for everything the audit asks for: a robots.txt AI-allowlist builder, an llms.txt generator, identity JSON-LD, and FAQ schema.
+The **[tools page](https://geo.ensolabs.ai/tools.html)** has free no-code generators for everything the audit asks for: a robots.txt AI-allowlist builder, an llms.txt generator, identity JSON-LD, and FAQ schema.
 
 ## Quick start
 
