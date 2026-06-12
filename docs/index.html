@@ -4,9 +4,9 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>geo-audit — Own your AI visibility · Enso Labs</title>
-<meta name="description" content="geo-audit is a free, open-source tool that scores any website's visibility to AI search engines — ChatGPT, Claude, Perplexity, Gemini — with copy-paste fixes. By Enso Labs."/>
+<meta name="description" content="geo-audit is a free, open-source tool that scores any website's visibility to AI search engines — ChatGPT, Claude, Perplexity, Gemini — with copy-paste fixes. Audit any site right in the browser. By Enso Labs."/>
 <meta property="og:title" content="geo-audit — Own your AI visibility"/>
-<meta property="og:description" content="Free GEO audit for any website. 15 checks, a score /100, copy-paste fixes. No API keys, no signup."/>
+<meta property="og:description" content="Free GEO audit for any website. 15 checks, a score /100, copy-paste fixes — right in your browser. No API keys, no signup."/>
 <meta property="og:url" content="https://notion-geo-audit.vercel.app/"/>
 <meta property="og:image" content="https://notion-geo-audit.vercel.app/og.png"/>
 <meta property="og:type" content="website"/>
@@ -27,7 +27,7 @@
       "@type": "SoftwareApplication",
       "name": "geo-audit",
       "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "macOS, Linux, Windows",
+      "operatingSystem": "Web, macOS, Linux, Windows",
       "url": "https://notion-geo-audit.vercel.app",
       "description": "geo-audit is a free, open-source tool that scores any website's visibility to AI search engines (ChatGPT, Claude, Perplexity, Gemini) out of 100, with copy-paste fixes.",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -48,6 +48,16 @@
         },
         {
           "@type": "Question",
+          "name": "Can I run geo-audit without installing anything?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Type any URL into the audit box on this page and press Audit — the 15 checks run in the cloud and your scored report appears in seconds. The CLI, Claude connector, and Notion agent are there when you want more." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does geo-audit work for Notion-hosted sites?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Audit any *.notion.site address and geo-audit switches to Notion mode: it tells you which fixes you control inside Notion (title, description, indexing, content shape) and which require connecting a custom domain." }
+        },
+        {
+          "@type": "Question",
           "name": "What does geo-audit cost?",
           "acceptedAnswer": { "@type": "Answer", "text": "Nothing. It is MIT licensed and open source — communities can fork it, rebrand it, and run it for their members." }
         },
@@ -61,52 +71,376 @@
   ]
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--paper:#F7F1E6;--ink:#1E1813;--deep:#16110B;--coral:#F0512E;--slate:#79705F;--line:#DDD2BC;}
+  :root{
+    --bg:#0A0E14; --bg2:#0E141D; --glass:rgba(255,255,255,.045); --glass2:rgba(255,255,255,.08);
+    --line:rgba(255,255,255,.10); --text:#E8EDF4; --dim:#8A94A6;
+    --coral:#F0512E; --teal:#2EE6C8; --gold:#F4B63F; --red:#FF5C5C;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--paper);font-family:"Inter Tight",system-ui,sans-serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
-  .kicker{font:700 12px/1 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--slate);margin-bottom:18px}
-  h1{font-family:Lora,serif;font-weight:600;font-size:clamp(36px,6vw,60px);line-height:1.1;text-align:center;max-width:16ch}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Inter Tight",system-ui,sans-serif;line-height:1.55;
+    background-image:radial-gradient(900px 480px at 85% -10%,rgba(46,230,200,.07),transparent),radial-gradient(800px 420px at 0% 0%,rgba(240,81,46,.08),transparent)}
+  a{color:var(--teal);text-decoration:none}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+
+  nav{display:flex;align-items:center;gap:22px;padding:20px 0}
+  nav .logo{font:700 15px "JetBrains Mono",monospace;color:var(--text)}
+  nav .logo .c{color:var(--coral)}
+  nav .links{margin-left:auto;display:flex;gap:18px;font:500 13px "JetBrains Mono",monospace}
+  nav .links a{color:var(--dim)} nav .links a:hover{color:var(--teal)}
+
+  .hero{padding:54px 0 8px;text-align:center}
+  .prompt{font:600 13px "JetBrains Mono",monospace;color:var(--teal);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+  h1{font-size:clamp(34px,5.6vw,58px);font-weight:700;line-height:1.08;letter-spacing:-.02em}
   h1 .c{color:var(--coral)}
-  .sub{font-size:clamp(15px,1.6vw,19px);color:var(--slate);margin:18px 0 40px;max-width:52ch;text-align:center;line-height:1.55}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;width:100%;max-width:860px}
-  a.card{display:block;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:24px;text-decoration:none;color:var(--ink);transition:all .18s}
-  a.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(22,17,11,.12);border-color:var(--coral)}
-  .card .e{font-size:30px}
-  .card h2{font-family:Lora,serif;font-size:20px;margin:10px 0 6px}
-  .card p{font-size:14px;color:var(--slate);line-height:1.5}
-  .card .go{display:inline-block;margin-top:12px;font:700 12px "JetBrains Mono",monospace;color:var(--coral);letter-spacing:.1em}
-  .foot{margin-top:44px;font:11px "JetBrains Mono",monospace;color:var(--slate);text-align:center;line-height:1.9}
-  .foot a{color:var(--coral);text-decoration:none}
+  .sub{color:var(--dim);max-width:62ch;margin:18px auto 0;font-size:clamp(15px,1.6vw,18px)}
+
+  .auditbox{margin:36px auto 10px;max-width:660px;background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;gap:10px;
+    box-shadow:0 0 0 1px rgba(46,230,200,.06),0 24px 60px rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+  .auditbox .dollar{font:600 17px "JetBrains Mono",monospace;color:var(--teal);align-self:center;padding-left:12px}
+  .auditbox input{flex:1;background:transparent;border:0;outline:0;color:var(--text);font:500 16px "JetBrains Mono",monospace;min-width:0}
+  .auditbox input::placeholder{color:#5A6478}
+  .auditbox button{background:var(--coral);border:0;color:#fff;font:700 14px "JetBrains Mono",monospace;border-radius:10px;padding:13px 22px;cursor:pointer;transition:all .15s}
+  .auditbox button:hover{filter:brightness(1.12);transform:translateY(-1px)}
+  .auditbox button:disabled{opacity:.55;cursor:wait;transform:none}
+  .try{font:12px "JetBrains Mono",monospace;color:var(--dim);margin-top:14px}
+  .try button{background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:99px;padding:5px 12px;font:inherit;cursor:pointer;margin:0 3px;transition:all .15s}
+  .try button:hover{color:var(--teal);border-color:var(--teal)}
+
+  #out{max-width:780px;margin:26px auto 0;text-align:left;display:none}
+  .console{background:#070A0F;border:1px solid var(--line);border-radius:14px;padding:18px 20px;font:13px/1.9 "JetBrains Mono",monospace;color:var(--dim)}
+  .console .ok{color:var(--teal)}
+  .scorecard{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:14px;backdrop-filter:blur(8px)}
+  .scorehead{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .bignum{font:700 56px/1 "JetBrains Mono",monospace}
+  .bignum small{font-size:22px;color:var(--dim)}
+  .grade{font-size:15px;color:var(--dim);max-width:40ch}
+  .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);margin:18px 0 6px;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--coral),var(--teal));transition:width .8s ease}
+  .share{font:11px "JetBrains Mono",monospace;color:var(--dim);cursor:pointer;border:0;background:none;padding:0}
+  .share:hover{color:var(--teal)}
+
+  .engines{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:20px}
+  .engine{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .engine .name{font:700 13px "JetBrains Mono",monospace}
+  .engine .esc{font:700 26px "JetBrains Mono",monospace;margin:4px 0 2px}
+  .engine .chip{display:inline-block;font:600 10px "JetBrains Mono",monospace;border-radius:99px;padding:2px 8px;margin-bottom:8px}
+  .engine .rec{font-size:12px;color:var(--dim);line-height:1.45}
+
+  .fixfirst{margin-top:20px;border:1px solid rgba(240,81,46,.35);background:rgba(240,81,46,.07);border-radius:14px;padding:18px 20px}
+  .fixfirst h3{font:700 13px "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--coral);text-transform:uppercase;margin-bottom:10px}
+  .fixfirst li{margin:7px 0 7px 20px;font-size:14.5px}
+
+  .notionmode{margin-top:20px;border:1px solid rgba(46,230,200,.35);background:rgba(46,230,200,.06);border-radius:14px;padding:18px 20px}
+  .notionmode h3{font:700 13px "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--teal);text-transform:uppercase;margin-bottom:10px}
+  .notionmode li{margin:7px 0 7px 20px;font-size:14px;color:var(--text)}
+  .notionmode .why{color:var(--dim);font-size:13px;margin-top:10px}
+
+  .pillar{margin-top:22px}
+  .pillar h3{font:700 12px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+  .check{border:1px solid var(--line);border-radius:12px;margin:8px 0;overflow:hidden;background:var(--bg2)}
+  .check summary{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;list-style:none;font-size:14.5px}
+  .check summary::-webkit-details-marker{display:none}
+  .check summary:hover{background:var(--glass)}
+  .check .pts{margin-left:auto;font:600 13px "JetBrains Mono",monospace;color:var(--dim);white-space:nowrap}
+  .check .body{padding:2px 16px 16px 44px;font-size:14px;color:var(--dim)}
+  .check .body .fix{color:var(--text);margin-top:8px}
+  .check .body .fix b{color:var(--gold)}
+  .check .body ul{margin:8px 0 0 18px}
+  pre.snip{position:relative;background:#070A0F;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px;font:12.5px/1.6 "JetBrains Mono",monospace;color:#C9D4E3;overflow-x:auto;white-space:pre-wrap}
+  .copybtn{position:absolute;top:8px;right:8px;background:var(--glass2);border:1px solid var(--line);color:var(--dim);font:600 11px "JetBrains Mono",monospace;border-radius:7px;padding:4px 10px;cursor:pointer}
+  .copybtn:hover{color:var(--teal);border-color:var(--teal)}
+
+  .repbox{margin-top:22px;text-align:center}
+  .repbox>button{background:transparent;border:1px solid var(--teal);color:var(--teal);font:700 13px "JetBrains Mono",monospace;border-radius:10px;padding:12px 20px;cursor:pointer;transition:all .15s}
+  .repbox>button:hover{background:rgba(46,230,200,.1)}
+  .repbox>button:disabled{opacity:.5;cursor:wait}
+  .repnote{font-size:11.5px;color:var(--dim);margin-top:8px}
+  .repanswer{text-align:left;margin-top:14px;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .repanswer blockquote{border-left:3px solid var(--teal);padding-left:14px;font-size:14.5px;color:var(--text)}
+  .repanswer .src{font:12px "JetBrains Mono",monospace;color:var(--dim);margin-top:12px;word-break:break-all}
+
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;max-width:780px;margin:64px auto 0}
+  .stat{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;cursor:pointer;transition:all .15s}
+  .stat:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .stat .n{font:700 34px "JetBrains Mono",monospace}
+  .stat .l{font:11px "JetBrains Mono",monospace;color:var(--dim);margin-top:4px}
+
+  section.zone{padding:70px 0 0}
+  .zonehead{font:700 13px "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+  .zonetitle{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.01em}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:22px}
+  a.card{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:20px;color:var(--text);transition:all .18s;backdrop-filter:blur(8px)}
+  a.card:hover{transform:translateY(-3px);border-color:var(--coral);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+  .card .e{font-size:26px}
+  .card h2{font-size:17px;margin:10px 0 5px;font-weight:600}
+  .card p{font-size:13.5px;color:var(--dim)}
+  .card .go{display:inline-block;margin-top:10px;font:700 11px "JetBrains Mono",monospace;color:var(--coral);letter-spacing:.1em}
+
+  .faq{max-width:780px;margin:22px auto 0}
+  .faq details{border:1px solid var(--line);border-radius:12px;margin:8px 0;background:var(--glass)}
+  .faq summary{padding:14px 18px;cursor:pointer;font-weight:600;font-size:15px;list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq .a{padding:0 18px 14px;color:var(--dim);font-size:14px}
+
+  .foot{margin:80px 0 36px;text-align:center;font:11.5px/2 "JetBrains Mono",monospace;color:var(--dim)}
+  .foot a{color:var(--coral)}
+  @media (max-width:560px){ .auditbox{flex-direction:column} .auditbox .dollar{display:none} .auditbox button{width:100%} }
 </style>
 </head>
 <body>
-<div class="kicker">enso labs · community tools · free & open source</div>
-<h1>Own your <span class="c">AI visibility</span>.</h1>
-<p class="sub">geo-audit is a free, open-source tool that scores how visible your website is to ChatGPT, Claude, Perplexity, and Gemini — 15 checks, a score out of 100, and copy-paste fixes. No API keys, no signup, no tracking.</p>
+<div class="wrap">
 
-<div class="cards">
-  <a class="card" href="/presentation.html">
-    <div class="e">🎬</div><h2>The presentation</h2>
-    <p>11 slides: the problem, the demo, the Notion scoreboard, and how to get started.</p>
-    <span class="go">VIEW DECK →</span>
-  </a>
-  <a class="card" href="/ask.html">
-    <div class="e">💬</div><h2>Ask geo-audit</h2>
-    <p>An interactive guide — tap a question, get a plain-English answer.</p>
-    <span class="go">START ASKING →</span>
-  </a>
-  <a class="card" href="/architecture.html">
-    <div class="e">🗺️</div><h2>How it's wired</h2>
-    <p>One backend, three frontends — terminal, Claude, and Notion — on one page.</p>
-    <span class="go">SEE THE MAP →</span>
-  </a>
-</div>
+<nav>
+  <span class="logo">▓▓ geo-audit<span class="c">_</span></span>
+  <span class="links">
+    <a href="/tools.html">tools</a>
+    <a href="/presentation.html">deck</a>
+    <a href="/ask.html">ask</a>
+    <a href="/architecture.html">map</a>
+    <a href="https://github.com/nycsav/notion-geo-audit">github</a>
+  </span>
+</nav>
+
+<header class="hero">
+  <div class="prompt">&gt; how do AI engines see you?</div>
+  <h1>Own your <span class="c">AI visibility</span>.</h1>
+  <p class="sub">geo-audit is a free, open-source tool that scores how visible your website is to ChatGPT, Claude, Perplexity, and Gemini — 15 checks, a score out of 100, and copy-paste fixes. No API keys, no signup, no tracking.</p>
+
+  <form class="auditbox" id="auditform">
+    <span class="dollar">$</span>
+    <input id="url" type="text" placeholder="audit yoursite.org" autocomplete="off" spellcheck="false" inputmode="url"/>
+    <button id="go" type="submit">AUDIT ▶</button>
+  </form>
+  <div class="try">try:
+    <button type="button" data-u="ensolabs.ai">ensolabs.ai</button>
+    <button type="button" data-u="brainstation.io">brainstation.io</button>
+    <button type="button" data-u="example.com">example.com</button>
+    — or any *.notion.site
+  </div>
+
+  <div id="out"></div>
+
+  <div class="strip">
+    <div class="stat" data-u="ensolabs.ai"><div class="n" style="color:var(--teal)">100</div><div class="l">ensolabs.ai</div></div>
+    <div class="stat" data-u="brainstation.io"><div class="n" style="color:var(--gold)">71</div><div class="l">brainstation.io</div></div>
+    <div class="stat" data-u="example.com"><div class="n" style="color:var(--red)">46</div><div class="l">example.com</div></div>
+    <div class="stat" onclick="document.getElementById('url').focus()"><div class="n" style="color:var(--dim)">??</div><div class="l">yoursite.org</div></div>
+  </div>
+</header>
+
+<section class="zone">
+  <div class="zonehead">free geo/seo tools</div>
+  <div class="zonetitle">Fix what the audit finds — no code required.</div>
+  <div class="cards">
+    <a class="card" href="/tools.html#robots">
+      <div class="e">🤖</div><h2>robots.txt builder</h2>
+      <p>Pick which AI engines may cite you — get a ready file with all 10 AI crawlers.</p>
+      <span class="go">BUILD →</span>
+    </a>
+    <a class="card" href="/tools.html#llms">
+      <div class="e">📜</div><h2>llms.txt generator</h2>
+      <p>The plain-text map AI assistants read first. Fill three fields, copy the file.</p>
+      <span class="go">GENERATE →</span>
+    </a>
+    <a class="card" href="/tools.html#jsonld">
+      <div class="e">🪪</div><h2>Identity schema</h2>
+      <p>JSON-LD that tells AI exactly who you are — so it never confuses you with a lookalike.</p>
+      <span class="go">CREATE →</span>
+    </a>
+    <a class="card" href="/tools.html#faq">
+      <div class="e">❓</div><h2>FAQ schema</h2>
+      <p>Turn your real questions into the most quotable format AI answers use.</p>
+      <span class="go">CONVERT →</span>
+    </a>
+  </div>
+</section>
+
+<section class="zone">
+  <div class="zonehead">go deeper</div>
+  <div class="zonetitle">Terminal, Claude, or Notion — same engine.</div>
+  <div class="cards">
+    <a class="card" href="https://github.com/nycsav/notion-geo-audit">
+      <div class="e">⌨️</div><h2>CLI</h2>
+      <p><span class="mono">npx tsx src/cli.ts yoursite.org</span> — the full report in your terminal.</p>
+      <span class="go">GET THE TOOL →</span>
+    </a>
+    <a class="card" href="https://github.com/nycsav/notion-geo-audit#use-it-inside-claude-the-geo-connector">
+      <div class="e">🔌</div><h2>Claude connector</h2>
+      <p>Add the MCP server once, then just ask Claude to audit and explain.</p>
+      <span class="go">CONNECT →</span>
+    </a>
+    <a class="card" href="/presentation.html">
+      <div class="e">🎬</div><h2>The presentation</h2>
+      <p>13 slides: the problem, the live demo, the Notion scoreboard, how to start.</p>
+      <span class="go">VIEW DECK →</span>
+    </a>
+    <a class="card" href="/architecture.html">
+      <div class="e">🗺️</div><h2>How it's wired</h2>
+      <p>One backend, three frontends — terminal, Claude, and Notion — on one page.</p>
+      <span class="go">SEE THE MAP →</span>
+    </a>
+  </div>
+</section>
+
+<section class="zone">
+  <div class="zonehead">faq</div>
+  <div class="zonetitle">Quick answers.</div>
+  <div class="faq">
+    <details><summary>What is geo-audit?</summary><div class="a">geo-audit is a free, open-source tool that checks how visible a website is to AI search engines — ChatGPT, Claude, Perplexity, and Gemini. It runs 15 checks on a site's public files and returns a score out of 100 with copy-paste fixes.</div></details>
+    <details><summary>Can I run it without installing anything?</summary><div class="a">Yes — type any URL into the audit box above and press Audit. The 15 checks run in the cloud and your scored report appears in seconds. The CLI, Claude connector, and Notion agent are there when you want more.</div></details>
+    <details><summary>Does it work for Notion-hosted sites?</summary><div class="a">Yes. Audit any *.notion.site address and geo-audit switches to Notion mode: it tells you which fixes you control inside Notion (title, description, indexing, content shape) and which require connecting a custom domain.</div></details>
+    <details><summary>What does it cost?</summary><div class="a">Nothing. MIT licensed and open source — communities can fork it, rebrand it, and run it for their members.</div></details>
+    <details><summary>Is my data safe?</summary><div class="a">Yes. geo-audit reads only files a website already shows the public internet — no login, no API keys for the core audit, no tracking, and nothing stored outside your control.</div></details>
+  </div>
+</section>
 
 <div class="foot">
   get the tool: <a href="https://github.com/nycsav/notion-geo-audit">github.com/nycsav/notion-geo-audit</a> · MIT licensed<br/>
   Powered by <a href="https://ensolabs.ai">Enso Labs</a> · Built with Claude Code
 </div>
+
+</div>
+
+<script>
+const PILLARS = {
+  crawlability: '1 · Crawlability — can AI engines reach you?',
+  structure: '2 · Structure — do they understand who you are?',
+  content: '3 · Content — is your writing quotable?',
+  connectivity: '4 · Connectivity — feeds & agent access',
+};
+const ICON = { pass:'✅', warn:'🟡', fail:'🔴', skip:'⚪' };
+const out = document.getElementById('out');
+const input = document.getElementById('url');
+const goBtn = document.getElementById('go');
+let currentUrl = '';
+
+document.getElementById('auditform').addEventListener('submit', e => { e.preventDefault(); runAudit(input.value); });
+document.querySelectorAll('[data-u]').forEach(el => el.addEventListener('click', () => { input.value = el.dataset.u; runAudit(el.dataset.u); }));
+
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+async function runAudit(raw) {
+  const url = (raw || '').trim();
+  if (!url) { input.focus(); return; }
+  currentUrl = url;
+  goBtn.disabled = true; goBtn.textContent = 'AUDITING…';
+  out.style.display = 'block';
+  out.innerHTML = '<div class="console" id="con">$ geo-audit ' + esc(url) + '<br/>fetching robots.txt · sitemap · llms.txt · schema · feeds…</div>';
+  out.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  try {
+    const r = await fetch('/api/audit?url=' + encodeURIComponent(url));
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Audit failed.');
+    render(data);
+  } catch (e) {
+    out.innerHTML = '<div class="console">$ geo-audit ' + esc(url) + '<br/><span style="color:var(--red)">✖ ' + esc(e.message) + '</span></div>';
+  } finally {
+    goBtn.disabled = false; goBtn.textContent = 'AUDIT ▶';
+  }
+}
+
+function render({ report, engines, notionSite }) {
+  const color = report.score >= 90 ? 'var(--teal)' : report.score >= 55 ? 'var(--gold)' : 'var(--red)';
+  const fixes = report.checks.filter(c => c.status !== 'pass' && c.fix).sort((a,b) => b.weight - a.weight);
+
+  let h = '<div class="scorecard">';
+  h += '<div class="scorehead"><div class="bignum" style="color:' + color + '">' + report.score + '<small>/100</small></div>';
+  h += '<div class="grade"><b class="mono">' + esc(report.origin) + '</b><br/>' + esc(report.grade) + '<br/><button class="share" onclick="shareLink()">⎘ copy share link</button></div></div>';
+  h += '<div class="bar"><i style="width:' + report.score + '%"></i></div>';
+
+  if (engines && engines.length) {
+    h += '<div class="engines">';
+    for (const e of engines) {
+      const ec = e.score >= 90 ? 'var(--teal)' : e.score >= 55 ? 'var(--gold)' : 'var(--red)';
+      const chip = e.access === 'allowed'
+        ? '<span class="chip" style="background:rgba(46,230,200,.12);color:var(--teal)">crawler allowed</span>'
+        : e.access === 'blocked'
+          ? '<span class="chip" style="background:rgba(255,92,92,.12);color:var(--red)">crawler BLOCKED</span>'
+          : '<span class="chip" style="background:rgba(244,182,63,.12);color:var(--gold)">default access</span>';
+      h += '<div class="engine"><div class="name">' + esc(e.engine) + '</div><div class="esc" style="color:' + ec + '">' + e.score + '</div>' + chip;
+      h += '<div class="rec">' + (e.recommendations.length ? esc(e.recommendations[0]) : 'Looking good — keep your content fresh.') + '</div></div>';
+    }
+    h += '</div>';
+  }
+
+  if (notionSite) h += notionPanel();
+
+  if (fixes.length) {
+    h += '<div class="fixfirst"><h3>Fix these first — highest impact at the top</h3><ol>';
+    fixes.forEach(c => { h += '<li>' + ICON[c.status] + ' <b>' + esc(c.title) + '</b> — ' + esc(c.fix) + '</li>'; });
+    h += '</ol></div>';
+  } else {
+    h += '<div class="fixfirst" style="border-color:rgba(46,230,200,.35);background:rgba(46,230,200,.06)"><h3 style="color:var(--teal)">Nothing critical to fix — this site is AI-ready 🎉</h3></div>';
+  }
+
+  for (const p of ['crawlability','structure','content','connectivity']) {
+    const group = report.checks.filter(c => c.pillar === p);
+    if (!group.length) continue;
+    h += '<div class="pillar"><h3>' + esc(PILLARS[p]) + '</h3>';
+    for (const c of group) {
+      h += '<details class="check"><summary>' + ICON[c.status] + ' ' + esc(c.title) + '<span class="pts">' + c.earned + '/' + c.weight + '</span></summary>';
+      h += '<div class="body">' + esc(c.finding);
+      if (c.details && c.details.length) { h += '<ul>' + c.details.map(d => '<li>' + esc(d) + '</li>').join('') + '</ul>'; }
+      if (c.status !== 'pass' && c.fix) h += '<div class="fix"><b>Fix:</b> ' + esc(c.fix) + '</div>';
+      if (c.snippet) h += '<pre class="snip"><button class="copybtn" onclick="copySnip(this)">copy</button>' + esc(c.snippet) + '</pre>';
+      h += '</div></details>';
+    }
+    h += '</div>';
+  }
+
+  h += '<div class="repbox"><button onclick="runRep(this)">🔮 HOW DOES AI DESCRIBE YOU? — LIVE CHECK</button>';
+  h += '<div class="repnote">Asks Perplexity, live, how it describes ' + esc(report.origin.replace(/^https?:\/\//,'')) + ' today. Rate-limited: one check per minute.</div>';
+  h += '<div id="rep"></div></div>';
+
+  h += '</div>';
+  out.innerHTML = h;
+}
+
+function notionPanel() {
+  return '<div class="notionmode"><h3>◇ Notion mode — this is a notion.site</h3>' +
+  '<b style="font-size:14px">What you control inside Notion:</b><ul>' +
+  '<li>✅ <b>Site title & description</b> — Site settings → your published site → SEO fields</li>' +
+  '<li>✅ <b>Search engine indexing ON</b> — same settings panel; without it nothing else matters</li>' +
+  '<li>✅ <b>Social preview image</b> — set a custom preview so AI link cards look intentional</li>' +
+  '<li>✅ <b>Content shape</b> — one clear H1, a first sentence that reads "X is a …", and an FAQ section</li>' +
+  '</ul><b style="font-size:14px;display:block;margin-top:10px">What Notion controls (you can\'t edit on *.notion.site):</b><ul>' +
+  '<li>⚠️ robots.txt, sitemap.xml, llms.txt, RSS, /.well-known — these checks are capped for you</li>' +
+  '</ul><div class="why">🚀 <b style="color:var(--text)">The unlock:</b> connect a <b style="color:var(--text)">custom domain</b> (Site settings → Domains). Every fix in this report becomes available, and your GEO score ceiling goes from ~60 to 100. Re-audit the custom domain after.</div></div>';
+}
+
+async function runRep(btn) {
+  btn.disabled = true; btn.textContent = 'ASKING PERPLEXITY…';
+  const rep = document.getElementById('rep');
+  try {
+    const r = await fetch('/api/representation?url=' + encodeURIComponent(currentUrl));
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Check failed.');
+    rep.innerHTML = '<div class="repanswer"><blockquote>' + esc(data.answer) + '</blockquote>' +
+      '<div class="src">— ' + esc(data.engine) + (data.sources.length ? '<br/>sources it trusted: ' + data.sources.map(esc).join(' · ') : '') + '</div></div>';
+    btn.style.display = 'none';
+  } catch (e) {
+    rep.innerHTML = '<div class="repanswer"><blockquote style="border-color:var(--red)">' + esc(e.message) + '</blockquote></div>';
+    btn.disabled = false; btn.textContent = '🔮 HOW DOES AI DESCRIBE YOU? — LIVE CHECK';
+  }
+}
+
+function copySnip(btn) {
+  const text = btn.parentElement.innerText.replace(/^copy\n?/, '');
+  navigator.clipboard.writeText(text).then(() => { btn.textContent = 'copied ✓'; setTimeout(() => btn.textContent = 'copy', 1600); });
+}
+
+function shareLink() {
+  const link = location.origin + '/?url=' + encodeURIComponent(currentUrl);
+  navigator.clipboard.writeText(link);
+  history.replaceState(null, '', '/?url=' + encodeURIComponent(currentUrl));
+}
+
+const qs = new URLSearchParams(location.search).get('url');
+if (qs) { input.value = qs; runAudit(qs); }
+</script>
 </body>
 </html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GEO tools — robots.txt, llms.txt & schema generators · geo-audit</title>
+<meta name="description" content="Free no-code GEO/SEO generators: build an AI-crawler robots.txt, an llms.txt, identity JSON-LD, and FAQ schema for any website or Notion site. Copy-paste and ship."/>
+<link rel="canonical" href="https://notion-geo-audit.vercel.app/tools.html"/>
+<meta property="og:title" content="GEO tools — fix what the audit finds"/>
+<meta property="og:description" content="Free generators: robots.txt AI allowlist, llms.txt, identity JSON-LD, FAQ schema. No code required."/>
+<meta property="og:url" content="https://notion-geo-audit.vercel.app/tools.html"/>
+<meta property="og:image" content="https://notion-geo-audit.vercel.app/og.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E14; --bg2:#0E141D; --glass:rgba(255,255,255,.045); --glass2:rgba(255,255,255,.08);
+    --line:rgba(255,255,255,.10); --text:#E8EDF4; --dim:#8A94A6;
+    --coral:#F0512E; --teal:#2EE6C8; --gold:#F4B63F;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Inter Tight",system-ui,sans-serif;line-height:1.55;
+    background-image:radial-gradient(900px 480px at 85% -10%,rgba(46,230,200,.07),transparent),radial-gradient(800px 420px at 0% 0%,rgba(240,81,46,.08),transparent)}
+  a{color:var(--teal);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px 60px}
+  nav{display:flex;align-items:center;gap:22px;padding:20px 0}
+  nav .logo{font:700 15px "JetBrains Mono",monospace;color:var(--text)}
+  nav .logo .c{color:var(--coral)}
+  nav .links{margin-left:auto;display:flex;gap:18px;font:500 13px "JetBrains Mono",monospace}
+  nav .links a{color:var(--dim)} nav .links a:hover{color:var(--teal)}
+  header{padding:34px 0 10px}
+  .prompt{font:600 13px "JetBrains Mono",monospace;color:var(--teal);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+  h1{font-size:clamp(28px,4.5vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  h1 .c{color:var(--coral)}
+  .sub{color:var(--dim);margin-top:12px;max-width:60ch}
+  .tool{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:26px;backdrop-filter:blur(8px)}
+  .tool h2{font-size:19px;font-weight:600}
+  .tool .why{font-size:13.5px;color:var(--dim);margin:6px 0 16px}
+  label{display:block;font:600 11px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:14px 0 6px}
+  input[type=text],textarea{width:100%;background:#070A0F;border:1px solid var(--line);border-radius:10px;color:var(--text);font:500 14px "JetBrains Mono",monospace;padding:11px 13px;outline:0}
+  input[type=text]:focus,textarea:focus{border-color:var(--teal)}
+  textarea{resize:vertical;min-height:88px;line-height:1.6}
+  .bots{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:6px}
+  .bot{display:flex;gap:9px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;cursor:pointer}
+  .bot input{accent-color:var(--coral)}
+  .bot .ua{font:600 12px "JetBrains Mono",monospace}
+  .bot .eng{color:var(--dim);font-size:11.5px}
+  pre.outbox{position:relative;background:#070A0F;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:16px;font:12.5px/1.65 "JetBrains Mono",monospace;color:#C9D4E3;overflow-x:auto;white-space:pre-wrap;min-height:60px}
+  .copybtn{position:absolute;top:10px;right:10px;background:var(--glass2);border:1px solid var(--line);color:var(--dim);font:600 11px "JetBrains Mono",monospace;border-radius:7px;padding:5px 12px;cursor:pointer}
+  .copybtn:hover{color:var(--teal);border-color:var(--teal)}
+  .hint{font-size:12px;color:var(--dim);margin-top:10px}
+  .hint b{color:var(--gold)}
+  .foot{margin-top:60px;text-align:center;font:11.5px/2 "JetBrains Mono",monospace;color:var(--dim)}
+  .foot a{color:var(--coral)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <span class="logo">▓▓ geo-audit<span class="c">_</span></span>
+  <span class="links">
+    <a href="/">audit</a>
+    <a href="/presentation.html">deck</a>
+    <a href="/ask.html">ask</a>
+    <a href="https://github.com/nycsav/notion-geo-audit">github</a>
+  </span>
+</nav>
+
+<header>
+  <div class="prompt">&gt; free geo/seo tools · no code required</div>
+  <h1>Fix what the audit <span class="c">finds</span>.</h1>
+  <p class="sub">Four generators that produce the exact files the audit checks for. Fill the fields, copy the output, put it on your site. Everything runs in your browser — nothing is sent anywhere.</p>
+</header>
+
+<div class="tool" id="robots">
+  <h2>🤖 robots.txt AI-allowlist builder</h2>
+  <div class="why">Each AI engine reads your site with its own named crawler. Naming them with <span style="font-family:'JetBrains Mono',monospace">Allow: /</span> is an explicit welcome signal — and it survives any future tightening of your "*" rules.</div>
+  <label>Which engines should be able to cite you?</label>
+  <div class="bots" id="botlist"></div>
+  <label>Your sitemap URL (optional)</label>
+  <input type="text" id="r-sitemap" placeholder="https://yoursite.org/sitemap.xml"/>
+  <pre class="outbox"><button class="copybtn" onclick="copyOut(this)">copy</button><span id="r-out"></span></pre>
+  <div class="hint"><b>Where it goes:</b> the file must live at <span style="font-family:'JetBrains Mono',monospace">yoursite.org/robots.txt</span>. On a *.notion.site you can't edit it — connect a custom domain first.</div>
+</div>
+
+<div class="tool" id="llms">
+  <h2>📜 llms.txt generator</h2>
+  <div class="why">An emerging standard: a short plain-text map that AI assistants read first — who you are, and your best pages. Think of it as a menu you hand the engine instead of letting it wander.</div>
+  <label>Site name</label>
+  <input type="text" id="l-name" placeholder="Acme Studio"/>
+  <label>One sentence that defines you ("X is a …")</label>
+  <input type="text" id="l-def" placeholder="Acme Studio is a design studio in Brooklyn that builds brand systems for food businesses."/>
+  <label>Key pages — one per line: Title | URL | one-line description</label>
+  <textarea id="l-pages" placeholder="About | https://acme.studio/about | Who we are and how we work
+Services | https://acme.studio/services | Brand systems, packaging, web
+Contact | https://acme.studio/contact | Start a project"></textarea>
+  <pre class="outbox"><button class="copybtn" onclick="copyOut(this)">copy</button><span id="l-out"></span></pre>
+  <div class="hint"><b>Where it goes:</b> <span style="font-family:'JetBrains Mono',monospace">yoursite.org/llms.txt</span> — a plain text file at your site root.</div>
+</div>
+
+<div class="tool" id="jsonld">
+  <h2>🪪 Identity schema (JSON-LD)</h2>
+  <div class="why">This is how AI engines disambiguate you from similarly-named entities. Without it, an engine answering "what is yoursite.org?" is guessing — and sometimes it guesses a different company.</div>
+  <label>Organization or person name</label>
+  <input type="text" id="j-name" placeholder="Acme Studio"/>
+  <label>Website URL</label>
+  <input type="text" id="j-url" placeholder="https://acme.studio"/>
+  <label>One-sentence description</label>
+  <input type="text" id="j-desc" placeholder="Acme Studio is a design studio in Brooklyn that builds brand systems for food businesses."/>
+  <label>Official profiles — one URL per line (LinkedIn, GitHub, Instagram…) — these are your disambiguation anchors</label>
+  <textarea id="j-same" placeholder="https://www.linkedin.com/company/acme-studio
+https://www.instagram.com/acmestudio"></textarea>
+  <pre class="outbox"><button class="copybtn" onclick="copyOut(this)">copy</button><span id="j-out"></span></pre>
+  <div class="hint"><b>Where it goes:</b> paste the whole block into your home page's <span style="font-family:'JetBrains Mono',monospace">&lt;head&gt;</span>. On Notion or no-code builders, use the custom-code / site-settings injection if available.</div>
+</div>
+
+<div class="tool" id="faq">
+  <h2>❓ FAQ schema generator</h2>
+  <div class="why">FAQs are the most directly quotable format for AI answers — a real question, answered in plain language, marked up so machines know it's a Q&amp;A.</div>
+  <label>Your questions and answers — alternate lines: question, then its answer</label>
+  <textarea id="f-pairs" style="min-height:130px" placeholder="What does Acme Studio do?
+Acme Studio designs brand systems — naming, identity, packaging, and web — for food businesses.
+How much does a project cost?
+Brand projects start at $8,000 and take four to six weeks."></textarea>
+  <pre class="outbox"><button class="copybtn" onclick="copyOut(this)">copy</button><span id="f-out"></span></pre>
+  <div class="hint"><b>Tip:</b> use 3–6 questions people actually ask you. Put the same Q&amp;As visibly on the page — schema should describe real content, not replace it.</div>
+</div>
+
+<div class="foot">
+  found these via the audit? run yours: <a href="/">notion-geo-audit.vercel.app</a><br/>
+  free · MIT · <a href="https://github.com/nycsav/notion-geo-audit">github.com/nycsav/notion-geo-audit</a> · Powered by <a href="https://ensolabs.ai">Enso Labs</a>
+</div>
+
+</div>
+
+<script>
+const AI_BOTS = [
+  ["GPTBot","ChatGPT (training + search index)"],
+  ["OAI-SearchBot","ChatGPT Search"],
+  ["ChatGPT-User","ChatGPT live browsing"],
+  ["ClaudeBot","Claude"],
+  ["PerplexityBot","Perplexity"],
+  ["Google-Extended","Gemini"],
+  ["Applebot-Extended","Apple Intelligence"],
+  ["meta-externalagent","Meta AI"],
+  ["Amazonbot","Alexa / Rufus"],
+  ["Bytespider","ByteDance / Doubao"],
+];
+const botlist = document.getElementById('botlist');
+AI_BOTS.forEach(([ua,eng],i)=>{
+  const l=document.createElement('label'); l.className='bot';
+  l.innerHTML='<input type="checkbox" '+(i<6?'checked':'')+' data-ua="'+ua+'"/><span><span class="ua">'+ua+'</span><br/><span class="eng">'+eng+'</span></span>';
+  botlist.appendChild(l);
+});
+
+function buildRobots(){
+  const bots=[...document.querySelectorAll('#botlist input:checked')].map(c=>c.dataset.ua);
+  const sm=document.getElementById('r-sitemap').value.trim();
+  let o = bots.length ? bots.map(b=>'User-agent: '+b+'\nAllow: /').join('\n\n') : '# select at least one engine above';
+  if(sm) o += '\n\nSitemap: '+sm;
+  document.getElementById('r-out').textContent=o;
+}
+function buildLlms(){
+  const name=document.getElementById('l-name').value.trim()||'yoursite.org';
+  const def=document.getElementById('l-def').value.trim()||'One sentence that defines who you are and what you do.';
+  const pages=document.getElementById('l-pages').value.split('\n').map(s=>s.trim()).filter(Boolean).map(line=>{
+    const [t,u,d]=line.split('|').map(x=>(x||'').trim());
+    return '- ['+(t||'Page')+']('+(u||'https://…')+')'+(d?': '+d:'');
+  });
+  document.getElementById('l-out').textContent='# '+name+'\n\n> '+def+'\n\n## Key pages\n\n'+(pages.length?pages.join('\n'):'- [About](https://…): Who we are');
+}
+function buildJsonld(){
+  const same=document.getElementById('j-same').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const obj={"@context":"https://schema.org","@type":"Organization",
+    name:document.getElementById('j-name').value.trim()||'Your Name',
+    url:document.getElementById('j-url').value.trim()||'https://yoursite.org',
+    description:document.getElementById('j-desc').value.trim()||'One sentence that defines you.'};
+  if(same.length) obj.sameAs=same;
+  document.getElementById('j-out').textContent='<script type="application/ld+json">\n'+JSON.stringify(obj,null,2)+'\n<\/script>';
+}
+function buildFaq(){
+  const lines=document.getElementById('f-pairs').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const qa=[];
+  for(let i=0;i+1<lines.length;i+=2) qa.push({"@type":"Question",name:lines[i],acceptedAnswer:{"@type":"Answer",text:lines[i+1]}});
+  const obj={"@context":"https://schema.org","@type":"FAQPage",mainEntity:qa.length?qa:[{"@type":"Question",name:"Your question?",acceptedAnswer:{"@type":"Answer",text:"Your plain-English answer."}}]};
+  document.getElementById('f-out').textContent='<script type="application/ld+json">\n'+JSON.stringify(obj,null,2)+'\n<\/script>';
+}
+function copyOut(btn){
+  const text=btn.parentElement.innerText.replace(/^copy\n?/,'');
+  navigator.clipboard.writeText(text).then(()=>{btn.textContent='copied ✓';setTimeout(()=>btn.textContent='copy',1600);});
+}
+document.addEventListener('input',()=>{buildRobots();buildLlms();buildJsonld();buildFaq();});
+buildRobots();buildLlms();buildJsonld();buildFaq();
+</script>
+</body>
+</html>

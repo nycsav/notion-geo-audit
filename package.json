@@ -16,7 +16,8 @@
     "build": "tsc",
     "dev": "tsx src/cli.ts",
     "mcp": "tsx src/mcp.ts",
-    "audit": "tsx src/cli.ts"
+    "audit": "tsx src/cli.ts",
+    "sync-api": "rm -rf docs/api/_lib && mkdir -p docs/api/_lib && cp src/types.ts src/checks.ts src/snapshot.ts src/report.ts docs/api/_lib/"
   },
   "keywords": [
     "geo",

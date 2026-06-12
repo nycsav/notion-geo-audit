@@ -31,6 +31,17 @@ $ npx tsx src/cli.ts yoursite.org
 
 Every failed check comes with a plain-English fix and a **copy-paste snippet** (a ready robots.txt block, an llms.txt template, a JSON-LD starter).
 
+## Audit in the browser (no install)
+
+Go to **[notion-geo-audit.vercel.app](https://notion-geo-audit.vercel.app)**, type your URL, press **AUDIT ▶**. You get:
+
+- the full 15-check report with copy-paste fixes
+- a **per-engine breakdown** — ChatGPT, Claude, Perplexity, and Gemini each scored separately (each engine reads your site with a different crawler, so the answers genuinely differ)
+- a live **"how does AI describe you today"** check (Perplexity, rate-limited)
+- **Notion mode** — audit any `*.notion.site` and see which fixes you control inside Notion vs. which need a custom domain
+
+The **[tools page](https://notion-geo-audit.vercel.app/tools.html)** has free no-code generators for everything the audit asks for: a robots.txt AI-allowlist builder, an llms.txt generator, identity JSON-LD, and FAQ schema.
+
 ## Quick start
 
 ```bash
