@@ -75,6 +75,8 @@ function result(partial: Omit<CheckResult, 'earned'> & { earned?: number }): Che
 export function runChecks(snap: SiteSnapshot): CheckResult[] {
   const checks: CheckResult[] = [];
   const $ = cheerio.load(snap.html || '<html></html>');
+  // <br> renders as whitespace but cheerio .text() drops it, gluing words together ("Strategyto Ship")
+  $('br').replaceWith(' ');
   const host = new URL(snap.origin).hostname;
 
   // ---------- PILLAR 1: CRAWLABILITY ----------

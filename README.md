@@ -49,7 +49,8 @@ geo-audit ships as an MCP server, so your community can plug it straight into Cl
 > *"Audit mysite.org for AI visibility and walk me through the top 3 fixes."*
 
 ```bash
-claude mcp add geo-audit -- npx tsx /path/to/geo-audit/src/mcp.ts
+npm run build
+claude mcp add geo-audit -- node /path/to/notion-geo-audit/dist/mcp.js
 ```
 
 Tools exposed:

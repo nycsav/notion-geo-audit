@@ -1,7 +1,7 @@
 # GEO Audit — https://ensolabs.ai
 
 **Score: 100/100** · A — AI engines can see, understand, and cite you
-*Generated 2026-06-12 08:44 UTC · geo-audit by [Enso Labs](https://ensolabs.ai)*
+*Generated 2026-06-12 18:19 UTC · geo-audit by [Enso Labs](https://ensolabs.ai)*
 
 ## Nothing critical to fix — this site is AI-ready. 🎉
 
@@ -36,7 +36,7 @@ Sitemap at https://ensolabs.ai/sitemap.xml, declared in robots.txt.
 
 ### ✅ llms.txt for AI assistants (8/8)
 
-Found at https://ensolabs.ai/llms.txt (7165 chars).
+Found at https://ensolabs.ai/llms.txt (7252 chars).
 
 ## 2 · Structure — can they understand who you are?
 
@@ -71,7 +71,7 @@ Robots meta: "index, follow".
 
 ### ✅ Single clear H1 (4/4)
 
-H1: "Strategyto Ship."
+H1: "Strategy to Ship."
 
 ### ✅ Definition-lead sentence (AEO) (10/10)
 
