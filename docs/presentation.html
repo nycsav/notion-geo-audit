@@ -159,7 +159,36 @@
     </table>
   </section>
 
-  <!-- 9 · DEMO ACT 5 — YOUR TURN -->
+  <!-- 9 · NOTION WORKERS -->
+  <section class="slide">
+    <div class="kicker">notion platform · workers</div>
+    <h1>Run it <span class="c">inside Notion</span>.</h1>
+    <p class="sub">Notion Workers are a hosted runtime — your code runs on Notion's servers, no laptop needed. Four steps, on screen:</p>
+    <div class="term">
+      <div><span class="dim"># 1 · install the Notion CLI (once)</span></div>
+      <div>curl -fsSL https://ntn.dev | bash</div>
+      <div><span class="dim"># 2 · sign in to your workspace</span></div>
+      <div>ntn login</div>
+      <div><span class="dim"># 3 · deploy the geo-audit worker</span></div>
+      <div>cd worker && ntn workers deploy</div>
+      <div><span class="dim"># 4 · in Notion: Settings → Connections → add auditSite to your Custom Agent</span></div>
+    </div>
+    <p class="sub" style="margin-top:22px">Workers are free in beta — they run on Notion credits starting Aug 11.</p>
+  </section>
+
+  <!-- 10 · NOTION AGENT + SYNC + TEMPLATE -->
+  <section class="slide">
+    <div class="kicker">notion platform · agents · sync · template</div>
+    <h1>Three Notion-native <span class="c">superpowers</span>.</h1>
+    <div class="grid g4" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="n">1 · Custom Agent tool</div><h3>Ask your agent, in Notion</h3><p>The worker's <b>auditSite</b> tool appears in your Custom Agent. In Notion chat: <i>"Audit brainstation.io and add it to the scoreboard."</i> Done.</p></div>
+      <div class="card"><div class="n">2 · Scheduled sync</div><h3>The scoreboard refreshes itself</h3><p><b>scoreboardSync</b> re-audits every row on Notion's schedule (default every 30 min). Fix your site, watch your score climb — automatically.</p></div>
+      <div class="card"><div class="n">3 · Duplicate the template</div><h3>One click for your community</h3><p>The <b>GEO Scoreboard template</b> ships the database, views, and instructions. Duplicate it into any workspace — no setup.</p></div>
+    </div>
+    <p class="sub" style="margin-top:26px">Built on the official stack: makenotion/workers-template · makenotion/skills · the Notion CLI.</p>
+  </section>
+
+  <!-- 11 · DEMO ACT 5 — YOUR TURN -->
   <section class="slide">
     <div class="kicker">the demo · step 5 of 5</div>
     <h1>Your turn. <span class="c">Your site.</span></h1>
