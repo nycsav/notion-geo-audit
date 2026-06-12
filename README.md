@@ -34,7 +34,7 @@ Every failed check comes with a plain-English fix and a **copy-paste snippet** (
 ## Quick start
 
 ```bash
-git clone https://github.com/nycsav/geo-audit && cd geo-audit
+git clone https://github.com/nycsav/notion-geo-audit && cd notion-geo-audit
 npm install
 
 npx tsx src/cli.ts yoursite.org                      # terminal scorecard

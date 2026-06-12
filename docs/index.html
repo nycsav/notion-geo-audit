@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>geo-audit — Own your AI visibility · Enso Labs</title>
+<meta name="description" content="geo-audit is a free, open-source tool that scores any website's visibility to AI search engines — ChatGPT, Claude, Perplexity, Gemini — with copy-paste fixes. By Enso Labs."/>
+<meta property="og:title" content="geo-audit — Own your AI visibility"/>
+<meta property="og:description" content="Free GEO audit for any website. 15 checks, a score /100, copy-paste fixes. No API keys, no signup."/>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F7F1E6;--ink:#1E1813;--deep:#16110B;--coral:#F0512E;--slate:#79705F;--line:#DDD2BC;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);font-family:"Inter Tight",system-ui,sans-serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+  .kicker{font:700 12px/1 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--slate);margin-bottom:18px}
+  h1{font-family:Lora,serif;font-weight:600;font-size:clamp(36px,6vw,60px);line-height:1.1;text-align:center;max-width:16ch}
+  h1 .c{color:var(--coral)}
+  .sub{font-size:clamp(15px,1.6vw,19px);color:var(--slate);margin:18px 0 40px;max-width:52ch;text-align:center;line-height:1.55}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;width:100%;max-width:860px}
+  a.card{display:block;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:24px;text-decoration:none;color:var(--ink);transition:all .18s}
+  a.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(22,17,11,.12);border-color:var(--coral)}
+  .card .e{font-size:30px}
+  .card h2{font-family:Lora,serif;font-size:20px;margin:10px 0 6px}
+  .card p{font-size:14px;color:var(--slate);line-height:1.5}
+  .card .go{display:inline-block;margin-top:12px;font:700 12px "JetBrains Mono",monospace;color:var(--coral);letter-spacing:.1em}
+  .foot{margin-top:44px;font:11px "JetBrains Mono",monospace;color:var(--slate);text-align:center;line-height:1.9}
+  .foot a{color:var(--coral);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="kicker">enso labs · community tools · free & open source</div>
+<h1>Own your <span class="c">AI visibility</span>.</h1>
+<p class="sub">geo-audit scores how visible your website is to ChatGPT, Claude, Perplexity, and Gemini — 15 checks, a score out of 100, and copy-paste fixes. No API keys, no signup, no tracking.</p>
+
+<div class="cards">
+  <a class="card" href="/presentation.html">
+    <div class="e">🎬</div><h2>The presentation</h2>
+    <p>11 slides: the problem, the demo, the Notion scoreboard, and how to get started.</p>
+    <span class="go">VIEW DECK →</span>
+  </a>
+  <a class="card" href="/ask.html">
+    <div class="e">💬</div><h2>Ask geo-audit</h2>
+    <p>An interactive guide — tap a question, get a plain-English answer.</p>
+    <span class="go">START ASKING →</span>
+  </a>
+  <a class="card" href="/architecture.html">
+    <div class="e">🗺️</div><h2>How it's wired</h2>
+    <p>One backend, three frontends — terminal, Claude, and Notion — on one page.</p>
+    <span class="go">SEE THE MAP →</span>
+  </a>
+</div>
+
+<div class="foot">
+  get the tool: <a href="https://github.com/nycsav/notion-geo-audit">github.com/nycsav/notion-geo-audit</a> · MIT licensed<br/>
+  Powered by <a href="https://ensolabs.ai">Enso Labs</a> · Built with Claude Code
+</div>
+</body>
+</html>

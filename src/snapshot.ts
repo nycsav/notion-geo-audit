@@ -1,6 +1,6 @@
 import type { SiteSnapshot, TextProbe } from './types.js';
 
-const UA = 'geo-audit/0.1 (+https://github.com/nycsav/geo-audit)';
+const UA = 'geo-audit/0.1 (+https://github.com/nycsav/notion-geo-audit)';
 const TIMEOUT_MS = 15_000;
 
 async function get(url: string): Promise<{ status: number; body: string; finalUrl: string }> {
